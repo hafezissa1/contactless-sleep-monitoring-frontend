@@ -25,7 +25,7 @@ function login() {
     
     signInWithEmailAndPassword(auth, email, password)
         .then(() => {
-            window.location.href = "old-index.html";
+            window.location.href = "heart-rate-chart.html";
         })
         .catch((error) => {
             alert(error.message);
@@ -39,7 +39,7 @@ function signup() {
 
     createUserWithEmailAndPassword(auth, email, password)
     .then(() => {
-            window.location.href = "old-index.html";
+            window.location.href = "heart-rate-chart.html";
         })
         .catch((error) => {
             alert(error.message);
