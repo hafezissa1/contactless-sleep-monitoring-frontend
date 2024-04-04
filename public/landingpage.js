@@ -3,6 +3,7 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } f
 
 const emailLoginBtn = document.getElementById('email-login-btn');
 const signupBtn = document.getElementById('signup-btn');
+
 // Initialize Firebase
 var firebaseConfig = {
     apiKey: "AIzaSyDVsMTk_uP5OGUjUTFwPgyYH2_80GbZkvY",
@@ -36,8 +37,6 @@ function signup() {
     var email = document.getElementById("email-signup").value;
     var password = document.getElementById("password-signup").value;
 
-    console.log(email)
-    console.log(password)
     createUserWithEmailAndPassword(auth, email, password)
     .then(() => {
             window.location.href = "old-index.html";
