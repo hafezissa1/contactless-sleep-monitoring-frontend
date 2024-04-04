@@ -1,56 +1,131 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Undercover Vitals - Sleep Monitoring</title>
+    <title>Landing Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- <link rel="stylesheet" href="styles.css"> -->
+       .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
 
-	<style>
-		body {
-			background-color: #F2F5F7;
-			font-family: Arial, sans-serif;
-		}
-		
-		.header {
-			background-color: #B2D8D8;
-			padding: 10px;
-			text-align: right;
-		}
-		
-		.header h1 {
-			margin: 0;
-		}
-		
-		.content {
-			padding: 20px;
-		}
-		
-		.dropdown {
-			margin-bottom: 20px;
-		}
-	</style>
+       .header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+
+       .header h1 {
+            margin: 0;
+        }
+
+       .main {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+        }
+
+       .main.login,
+       .main.signup {
+            width: 45%;
+            padding: 2rem;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+       .main.login h2,
+       .main.signup h2 {
+            margin-top: 0;
+        }
+
+       .main.login input,
+       .main.signup input {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+       .main.login button,
+       .main.signup button {
+            width: 100%;
+            padding: 0.5rem;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+       .main.login button:hover,
+       .main.signup button:hover {
+            background-color: #45a049;
+        }
+
+       .footer {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+
+       .footer p {
+            margin: 0;
+        }
+
+       .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+       .nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+    </style>
+    <!-- <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js"></script> -->
 </head>
 <body>
-	<div class="header">
-		<h1>Hi, Alvin!</h1>
-	</div>
-	
-	<div class="content">
-		<div class="dropdown">
-			<label for="date-select">Select Date:</label>
-			<select id="date-select">
-				<!-- Add options for date selection here -->
-			</select>
-		</div>
-		
-		<div id="chart-container">
-      <canvas id="chart"></canvas>
-      <script type="module" src="app.js"></script>
-			<!-- Add chart rendering code here -->
-		</div>
-	</div>
+    <div class="container">
+        <div class="header">
+            <div class="nav">
+                <a href="faq.html">FAQ</a>
+                <!-- <a href="another-page.html">Protected Page</a> -->
+            </div>
+            <h1>My App</h1>
+        </div>
+        <div class="main">
+            <div class="login">
+                <h2>Login</h2>
+                <input type="email" id="email" placeholder="Email">
+                <input type="password" id="password" placeholder="Password">
+                <button id="email-login-btn">Login</button>
+            </div>
+            <div class="signup">
+                <h2>Sign Up</h2>
+                <input type="email" id="email-signup" placeholder="Email">
+                <input type="password" id="password-signup" placeholder="Password">
+                <button id="signup-btn">Sign Up</button>
+            </div>
+        </div>
+        <div class="footer">
+            <p>Copyright © 2024 Undercover Vitals</p>
+        </div>
+    </div>
+    <script type="module" src="landingpage.js"></script>
 </body>
 </html>

@@ -2,6 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.2/firebase
 import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js";
 
 // Web app's Firebase configuration
+// Real data from Alvin sleep
 const firebaseConfig = {
     apiKey: "AIzaSyDVsMTk_uP5OGUjUTFwPgyYH2_80GbZkvY",
     authDomain: "undercover-vitals.firebaseapp.com",
@@ -11,16 +12,6 @@ const firebaseConfig = {
     messagingSenderId: "496410237161",
     appId: "1:496410237161:web:215af8d9ad1bd72c3af878"
 }
-
-// const firebaseConfig = {
-//     apiKey: "AIzaSyBdnJrFKCVEfoBu4MIaZXw-QnWApab-ZAI",
-//     authDomain: "contactless-sleep-sensor.firebaseapp.com",
-//     databaseURL: "https://contactless-sleep-sensor-default-rtdb.firebaseio.com",
-//     projectId: "contactless-sleep-sensor",
-//     storageBucket: "contactless-sleep-sensor.appspot.com",
-//     messagingSenderId: "496410237161",
-//     appId: "1:496410237161:web:215af8d9ad1bd72c3af878"
-// };
 
 // Fake data test
 // const firebaseConfig = {
@@ -49,13 +40,6 @@ let currentChild = 0;
 let chartData = {
     labels: [],
     datasets: [
-        {
-            label: "HR Raw",
-            data: [],
-            borderColor: "rgba(75, 192, 192, 1)",
-            backgroundColor: "rgba(75, 192, 192, 0.5)",
-            fill: false,
-        },
         {
             label: "HR Windowed",
             data: [],
@@ -106,7 +90,9 @@ let myChart = new Chart(chartCanvas, {
                 title: {
                     display: true,
                     text: 'Heart Rates'
-                }
+                },
+                min: 45,
+                max: 80
             },
         },
         // annotation: { 
@@ -117,24 +103,20 @@ let myChart = new Chart(chartCanvas, {
 });
 
 function plotData(childData) {
-    // Assuming childData is an object with HRRaw, HRWindowed, and Turns each being an array of data points
+    // Assuming childData is an object with HRWindowed, and Turns each being an array of data points
     // Clear the previous data
     chartData.datasets.forEach(dataset => {
         dataset.data = [];
     });
 
     // Assign data to each dataset
-    if (childData.HRRaw) {
-        chartData.datasets[0].data = childData.HRRaw.map(entry => createDataPoint(entry));
-        console.log("HR Raw Data Points:", chartData.datasets[0].data);
-    }
     if (childData.HRWindowed) {
-        chartData.datasets[1].data = childData.HRWindowed.map(entry => createDataPoint(entry));
-        console.log("HR Windowed Data Points:", chartData.datasets[1].data);
+        chartData.datasets[0].data = childData.HRWindowed.map(entry => createDataPoint(entry));
+        console.log("HR Windowed Data Points:", chartData.datasets[0].data);
     }
     if (childData.Turns) {
-        chartData.datasets[2].data = childData.Turns.map(entry => createDataPoint(entry));
-        console.log("Turn Data Points:", chartData.datasets[2].data);
+        chartData.datasets[1].data = childData.Turns.map(entry => createDataPoint(entry));
+        console.log("Turn Data Points:", chartData.datasets[1].data);
     }
 
     // Update the chart
@@ -142,7 +124,6 @@ function plotData(childData) {
 }
 
 function createDataPoint(obj) {
-    console.log(obj);
     let datePart = obj.DateTime.split('T')[0].split('-');
     let timePart = obj.DateTime.split('T')[1].split(':');
     let millisecondsPart = timePart[2].split('.')[1] || '000';
@@ -198,7 +179,7 @@ function updateDateDropdown(dates) {
     dates.forEach(date => {
         const option = document.createElement('option');
         option.value = date;
-        option.innerText = date.split('-')[0];
+        option.innerText = date.split('-')[0]; // TODO: fix visual text
         selectElement.appendChild(option);
     });
 }
@@ -215,6 +196,3 @@ document.getElementById('date-select').addEventListener('change', function() {
 });
 
 loadNextChild();
-// document.getElementById("load-next-child").addEventListener("click", () => {
-//     loadNextChild();
-// });
