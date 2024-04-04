@@ -15,18 +15,21 @@
             <p>UNDERCOVER VITALS</p>
         </div>
         <div class="nav-button">
-            <button class="btn white-btn" id="signup-btn">Sign Up</button>
+            <button class="btn white-btn" id="login-btn">Sign In</button>
         </div>
     </nav>
 
 <!----------------------------- Form box ----------------------------------->    
     <div class="form-box">
-        
-        <!------------------- login form -------------------------->
 
-        <div class="main-container" id="login">
+        <!------------------- registration form -------------------------->
+        <div class="main-container" id="register">
             <div class="top">
-                <header>Login</header>
+                <header>Sign Up</header>
+            </div>
+            <div class="input-box">
+                <input type="text" class="input-field" id="name-text" placeholder="Name">
+                <i class="bx bx-user"></i>
             </div>
             <div class="input-box">
                 <input type="text" class="input-field" id="email-text" placeholder="Email">
@@ -37,13 +40,13 @@
                 <i class="bx bx-lock-alt"></i>
             </div>
             <div class="input-box">
-                <input type="submit" class="submit" id="login-btn" value="Sign In">
+                <input type="submit" class="submit" id="signup-btn" value="Register">
             </div>
         </div>
     </div>
 </div>   
 
-<script type="module" src="login.js"></script>
+<script type="module" src="signup.js"></script>
 
 </body>
 </html>
