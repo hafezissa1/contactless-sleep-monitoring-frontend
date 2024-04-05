@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <title>Undercover Vitals</title>
+</head>
+<body>
+<div class="chart-wrapper">
+    <nav class="nav">
+        <div class="nav-logo">
+            <p>UNDERCOVER VITALS</p>
+        </div>
+        <div class="nav-button">
+            <button class="btn white-btn" id="signout-btn">Sign Out</button>
+        </div>
+    </nav> 
+        <div class="content">
+            <div class="dropdown">
+                <label for="date-select">Select Date:</label>
+                <select id="date-select"></select>
+            </div>
+                
+            <div id="chart-container">
+                <canvas id="chart" width="800" height="400"></canvas>
+                <script type="module" src="app.js"></script>
+            </div>
+        </div>
+</div>
+</body>
+</html>

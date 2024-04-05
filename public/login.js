@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
 
 const loginBtn = document.getElementById('login-btn');
 const signupBtn = document.getElementById('signup-btn');
@@ -24,12 +24,14 @@ function login() {
     var password = document.getElementById("password-text").value;
     
     signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-            window.location.href = "heart-rate-chart.html";
+        .then((userCredential) => {
+            console.log(userCredential.user);
+            console.log(userCredential.user.uid);
+
+            sessionStorage.setItem('uid', userCredential.user.uid);
+
+            window.location.href = "data.html";
         })
-        .catch((error) => {
-            alert(error.message);
-        });
 }
 
 function signup() {
