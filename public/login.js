@@ -32,6 +32,9 @@ function login() {
 
             window.location.href = "data.html";
         })
+        .catch((error) => {
+            alert(error.message);
+        });
 }
 
 function signup() {
