@@ -27,8 +27,9 @@ body{
     min-height: 100vh;
     background: rgba(39, 39, 39, 0.4);
 }
-.canvas{
-    aspect-ratio: 3 / 1;
+#chart {
+    width: 80vw;
+    height: 59vh;
 }
 .nav{
     position: fixed;
@@ -125,7 +126,6 @@ body{
     background-color: #ffffff;
 }
 .dropdown {
-    margin-bottom: 20px;
     font-family: 'Poppins', sans-serif;
     font-size: large;
 }
@@ -134,8 +134,8 @@ body{
     width: 42.5%;
     margin-top: 1vh;
     margin-left: 5vw;
-    margin-bottom: 5vh;
-    padding: 2vw;
+    margin-bottom: 1vh;
+    padding: 1vw;
     border-radius: 25px;
     text-align: center;
     font-family: 'Poppins', sans-serif;

@@ -3,6 +3,10 @@ import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
 
 const signoutBtn = document.getElementById('signout-btn');
+var summaryText = "";
+var disclaimerText = "\
+ This device is not for diagnostic use. \
+ Please consult a medical professional if you have concerns about the health data presented.";
 
 // Web app's Firebase configuration
 // Real data from Alvin sleep
@@ -64,6 +68,7 @@ let myChart = new Chart(chartCanvas, {
     type: "line",
     data: chartData,
     options: {
+        maintainAspectRatio: false,
         responsive: true,
         scales: {
             x: {
@@ -73,7 +78,7 @@ let myChart = new Chart(chartCanvas, {
                     tooltipFormat: 'HH:mm:ss.SSS',
                     unit: 'second',
                     displayFormats: {
-                        second: 'HH:mm:ss'
+                        second: 'HH:mm'
                     }
                 },
                 title: {
@@ -103,11 +108,11 @@ function plotData(childData) {
     // Assign data to each dataset
     if (childData.HRWindowed) {
         chartData.datasets[0].data = childData.HRWindowed.map(entry => createDataPoint(entry));
-        console.log("HR Windowed Data Points:", chartData.datasets[0].data);
+        // console.log("HR Windowed Data Points:", chartData.datasets[0].data);
     }
     if (childData.Turns) {
         chartData.datasets[1].data = childData.Turns.map(entry => createDataPoint(entry));
-        console.log("Turn Data Points:", chartData.datasets[1].data);
+        // console.log("Turn Data Points:", chartData.datasets[1].data);
     }
 
     // Update the chart
@@ -167,13 +172,42 @@ async function loadNextChild() {
       
             get(currentChildRef, 'value').then((childSnapshot) => {
                 let childData = childSnapshot.val();
+                console.log(childData)
 
                 // Update the chart data with the new values
                 plotData(childData);
+                updateStatsContainer(childData);
                 currentChild++;
             });
         };
     });
+}
+
+async function updateStatsContainer(childData) {
+    let min = Number.MAX_VALUE;
+    let max = Number.MIN_VALUE;
+    let sum = 0;
+    let count = 0;
+
+    let heartRateData = childData.HRWindowed;
+    let turnsData = childData.Turns;
+
+    heartRateData.forEach(item => {
+        const heartRateMean = item.HeartRateMean;
+        sum += heartRateMean;
+        count += 1;
+        if (heartRateMean < min) min = heartRateMean;
+        if (heartRateMean > max) max = heartRateMean;
+    });
+
+    let avg = sum / count;
+
+    summaryText = `Average Heart Rate: ${(Math.round(avg*100)/100).toString()}`;
+    summaryText = `${summaryText} <br>Minimum Heart Rate: ${(Math.round(min*100)/100).toString()}`;
+    summaryText = `${summaryText} <br>Maximum Heart Rate: ${(Math.round(max*100)/100).toString()}`;
+    // summaryText = `${summaryText} <br>Number of Turns: ${(Math.round(turnsData.length)).toString()}`;
+
+    document.getElementById("summary-text").innerHTML = summaryText;
 }
 
 // Retrieve all dates and store them
@@ -192,7 +226,12 @@ function updateDateDropdown(dates) {
     dates.forEach(date => {
         const option = document.createElement('option');
         option.value = date;
-        option.innerText = date.split('-')[0]; // TODO: fix visual text
+        let dateObject = date.split('-')[0];
+        option.innerText = new Date(dateObject.substring(0,4), dateObject.substring(4, 6)-1, dateObject.substring(6,8)).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: '2-digit'
+        });
         selectElement.appendChild(option);
     });
 }
@@ -213,7 +252,7 @@ loadNextChild();
 function signout() {
     auth.signOut()
         .then(() => {
-            console.log("User Signed Out");
+            // console.log("User Signed Out");
 
             window.location.href = "index.html";
         })
@@ -224,8 +263,5 @@ signoutBtn.addEventListener('click', () => {
     signout();
 });
 
-var summaryText = "A";
-var disclaimerText = "B";
 
-document.getElementById("summary-text").innerHTML = summaryText;
 document.getElementById("disclaimer-text").innerHTML = disclaimerText;
