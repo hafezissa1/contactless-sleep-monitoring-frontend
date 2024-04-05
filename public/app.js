@@ -49,8 +49,9 @@ let chartData = {
             backgroundColor: "rgba(75, 75, 192, 0.5)",
             fill: false,
             showLine: false, // This will ensure that no line is drawn
-            pointStyle: 'circle', // Style of the point
-            radius: 5 // Size of the point
+            pointStyle: 'line', // Style of the point
+            radius: 50, // Size of the point
+            rotation: 90
         }
     ],
 };
@@ -122,7 +123,6 @@ function createDataPoint(obj) {
     let timePart = obj.DateTime.split('T')[1].split(':');
     let millisecondsPart = timePart[2].split('.')[1] || '000';
 
-    // Construct date from each object in the childData
     let date = new Date();
     date.setFullYear(parseInt(datePart[0]), parseInt(datePart[1])-1, parseInt(datePart[2]));
     date.setHours(parseInt(timePart[0], 10));
@@ -130,16 +130,39 @@ function createDataPoint(obj) {
     date.setSeconds(parseInt(timePart[2], 10));
     date.setMilliseconds(parseInt(millisecondsPart, 10));
 
-    // Adjust the 'y' value according to the dataset
-    let value = obj.HeartRate || obj.HeartRateMean || obj.HeartRateStd;
+    let value;
+    if (obj.hasOwnProperty('HeartRate') || obj.hasOwnProperty('HeartRateMean') || obj.hasOwnProperty('HeartRateStd')) {
+        value = obj.HeartRate || obj.HeartRateMean || obj.HeartRateStd;
+    } else {
+        // This is a "Turns" object, so find the closest heart rate value
+        let closestHeartRate = findClosestHeartRate(date, chartData.datasets[0].data);
+        value = closestHeartRate ? closestHeartRate : null;
+    }
 
     return { x: date, y: value };
+}
+
+function findClosestHeartRate(turnDateTime, heartRates) {
+    // console.log("heartRates",heartRates )
+    let closest = null;
+    let minDiff = Number.MAX_VALUE;
+    
+    for (let hr of heartRates) {
+        let hrDateTime = new Date(hr.x);
+        let diff = Math.abs(turnDateTime - hrDateTime);
+        
+        if (diff < minDiff) {
+            minDiff = diff;
+            closest = hr.y;
+        }
+    }
+    
+    return closest;
 }
 
 async function loadNextChild() {
     get(heartRateRef, 'value').then((snapshot) => {
         const keys = Object.keys(snapshot.val());
-        console.log(keys);
         childrenCount = keys.length;
         
         if (childrenCount > 0 && currentChild < childrenCount) {
