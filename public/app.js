@@ -89,11 +89,7 @@ let myChart = new Chart(chartCanvas, {
                 min: 45,
                 max: 80
             },
-        },
-        // annotation: { 
-        //     annotations: annotations,
-        // }
-        //     plugins: [ChartAnnotation] 
+        }
     },
 });
 
