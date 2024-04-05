@@ -203,4 +203,10 @@ function signout() {
 signoutBtn.addEventListener('click', () => {
     console.log("Sign Out");
     signout();
-  });
+});
+
+var summaryText = "A";
+var disclaimerText = "B";
+
+document.getElementById("summary-text").innerHTML = summaryText;
+document.getElementById("disclaimer-text").innerHTML = disclaimerText;

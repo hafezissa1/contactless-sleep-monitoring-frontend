@@ -41,10 +41,10 @@ function signup() {
 loginBtn.addEventListener('click', () => {
     console.log("Login");
     login();
-  });
+});
   
 signupBtn.addEventListener('click', () => {
     console.log("Sign Up");
     signup();
-  });
+});
   
