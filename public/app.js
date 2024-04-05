@@ -1,5 +1,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js";
 import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
+
+const signoutBtn = document.getElementById('signout-btn');
 
 // Web app's Firebase configuration
 // Real data from Alvin sleep
@@ -13,35 +16,27 @@ const firebaseConfig = {
     appId: "1:496410237161:web:215af8d9ad1bd72c3af878"
 }
 
-// Fake data test
-// const firebaseConfig = {
-//     apiKey: "AIzaSyCkoGh-j_BD5f4As_SgwRWUcJZx_NrB83U",
-//     authDomain: "undercover-vitals-frontend.firebaseapp.com",
-//     databaseURL: "https://undercover-vitals-frontend-default-rtdb.firebaseio.com",
-//     projectId: "undercover-vitals-frontend",
-//     storageBucket: "undercover-vitals-frontend.appspot.com",
-//     // messagingSenderId: "496410237161",
-//     // appId: "1:496410237161:web:215af8d9ad1bd72c3af878"
-//     messagingSenderId: "406002460665",
-//     appId: "1:406002460665:web:75ed5a106a00f248063f28"
-// };
-
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-  
-// const heartRateRef = ref(db, "processed-data-test");
-const heartRateRef = ref(db, "fsnlDhD0RqNnSxSOlsiRvAd5txm2");
+
+const auth = getAuth();
 
 // Initialize a variable to keep track of the current child
 let childrenCount = 0;
 let currentChild = 0;
+
+var id = sessionStorage.getItem('uid');
+
+console.log(id);
+
+const heartRateRef = ref(db, id);
 
 // Initialize a variable to hold the chart data
 let chartData = {
     labels: [],
     datasets: [
         {
-            label: "HR Windowed",
+            label: "Heart Rate",
             data: [],
             borderColor: "rgba(192, 75, 75, 1)",
             backgroundColor: "rgba(192, 75, 75, 0.5)",
@@ -59,7 +54,6 @@ let chartData = {
         }
     ],
 };
-
 
 // Initialize the chart canvas
 const chartCanvas = document.getElementById("chart").getContext("2d");
@@ -89,7 +83,7 @@ let myChart = new Chart(chartCanvas, {
             y: {
                 title: {
                     display: true,
-                    text: 'Heart Rates'
+                    text: 'Heart Rate (BPM)'
                 },
                 min: 45,
                 max: 80
@@ -196,3 +190,17 @@ document.getElementById('date-select').addEventListener('change', function() {
 });
 
 loadNextChild();
+
+function signout() {
+    auth.signOut()
+        .then(() => {
+            console.log("User Signed Out");
+
+            window.location.href = "index.html";
+        })
+}
+
+signoutBtn.addEventListener('click', () => {
+    console.log("Sign Out");
+    signout();
+  });
