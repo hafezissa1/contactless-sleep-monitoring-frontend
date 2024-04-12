@@ -202,9 +202,9 @@ async function updateStatsContainer(childData) {
 
     let avg = sum / count;
 
-    summaryText = `Average Heart Rate: ${(Math.round(avg*100)/100).toString()}`;
-    summaryText = `${summaryText} <br>Minimum Heart Rate: ${(Math.round(min*100)/100).toString()}`;
-    summaryText = `${summaryText} <br>Maximum Heart Rate: ${(Math.round(max*100)/100).toString()}`;
+    summaryText = `Average Heart Rate: ${Math.round(avg).toString()} Beats Per Minute`;
+    summaryText = `${summaryText} <br>Minimum Heart Rate: ${Math.round(min).toString()} Beats Per Minute`;
+    summaryText = `${summaryText} <br>Maximum Heart Rate: ${Math.round(max).toString()} Beats Per Minute`;
     // summaryText = `${summaryText} <br>Number of Turns: ${(Math.round(turnsData.length)).toString()}`;
 
     document.getElementById("summary-text").innerHTML = summaryText;
